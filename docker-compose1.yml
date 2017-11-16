@@ -1,0 +1,20 @@
+version: '2'
+services:
+  db_autenticateuser:
+    image: mysql
+    ports:
+      - "4000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_USER: autenticateuser
+      MYSQL_PASSWORD: 123
+      MYSQL_DATABASE: db_autenticate
+      MYSQL_HOST: db_autenticateuser
+  ms_autenticateuser:
+    build: .
+    command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 3001 -b '0.0.0.0'"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db_autenticateuser
+  
